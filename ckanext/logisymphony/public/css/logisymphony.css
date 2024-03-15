@@ -1,0 +1,19 @@
+.dundas-bi-embed {
+  height: 800px;
+  width: 100%;
+}
+@media (max-width: 1680px) {
+  .dundas-bi-embed {
+    height: 650px;
+  }
+}
+@media (max-width: 1280px) {
+  .dundas-bi-embed {
+    height: 550px;
+  }
+}
+@media (max-width: 991px) {
+  .dundas-bi-embed {
+    height: 400px;
+  }
+}

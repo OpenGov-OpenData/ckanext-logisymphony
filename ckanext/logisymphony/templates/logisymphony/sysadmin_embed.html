@@ -1,0 +1,35 @@
+{% extends 'page.html' %}
+
+{%- block scripts %}
+  {{ super() }}
+  {% if h.get_logi_url() %}
+    <script src="{{ h.get_logi_url() }}/managed/Scripts/Embed/dundas.embed.min.js" type="text/javascript" ></script>
+  {% endif %}
+{% endblock -%}
+
+{%- block content %}
+  {% block maintag %} {{ super() }} {% endblock %}
+    <div id="content">
+      {% block main_content %}
+        {% block flash %}
+          {{ super() }}
+        {% endblock %}
+        {% if h.get_logi_url() %}
+          <div class="dundas-bi-embed"
+              data-dundas-bi-url="{{ h.get_logi_url() }}/managed/"
+              data-controller-type="Home"
+              style="height: 800px;">
+          </div>
+        {% else %}
+          <div class="alert alert-warning">
+            <p>
+              Logi Symphony URL not set. Please contact your administrator.
+            </p>
+          </div>
+        {% endif %}
+      {% endblock %}
+    </div>
+  </div>
+{% endblock -%}
+
+{% block secondary %}{% endblock %}

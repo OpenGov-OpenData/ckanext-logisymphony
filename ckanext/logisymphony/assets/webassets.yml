@@ -1,0 +1,14 @@
+# logisymphony-js:
+#   filter: rjsmin
+#   output: ckanext-logisymphony/%(version)s-logisymphony.js
+#   contents:
+#     - js/logisymphony.js
+#   extra:
+#     preload:
+#       - base/main
+
+# logisymphony-css:
+#   filter: cssrewrite
+#   output: ckanext-logisymphony/%(version)s-logisymphony.css
+#   contents:
+#     - css/logisymphony.css
