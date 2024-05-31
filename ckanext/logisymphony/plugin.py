@@ -19,6 +19,7 @@ class LogisymphonyPlugin(plugins.SingletonPlugin):
     # IConfigurer
     def update_config(self, config_):
         toolkit.add_template_directory(config_, 'templates')
+        toolkit.add_resource('assets', 'logisymphony')
         toolkit.add_public_directory(config_, 'public')
 
     # ITemplateHelpers
@@ -54,11 +55,14 @@ class LogisymphonyViewPlugin(plugins.SingletonPlugin):
         return {
             'name': 'logisymphony_view',
             'title': 'Logi Symphony',
-            'schema': {'dashboard_id': [ignore_empty, text_type]},
-            'iframed': False,
-            'icon': 'link',
+            'default_title': 'Dashboard',
+            'icon': 'pie-chart',
             'always_available': False,
-            'default_title': 'Logi Symphony'
+            'iframed': True,
+            'preview_enabled': False,
+            'schema': {
+                'dashboard_id': [ignore_empty, text_type]
+            },
         }
 
     def can_view(self, data_dict):

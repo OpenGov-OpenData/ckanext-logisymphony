@@ -2,6 +2,7 @@ from flask import Blueprint
 from flask.views import MethodView
 
 import ckan.model as model
+import ckanext.logisymphony.utils as utils
 from ckan.plugins.toolkit import (
     ObjectNotFound, NotAuthorized, get_action,
     check_access, abort, render, c, g, _
@@ -57,6 +58,24 @@ class LogiSymphonyView(MethodView):
         return render(u'logisymphony/sysadmin_embed.html')
 
 
+    def get_logi_dashboards():
+        try:
+            context = {
+                u'model': model,
+                u'user': g.user,
+                u'auth_user_obj': g.userobj
+            }
+            check_access('logisymphony_sysadmin_embed', context, {})
+        except NotAuthorized:
+            abort(404, _(u'Resource not found'))
+
+        dashboard_list = utils.get_logi_project_dashboards()
+        data = {
+            'results': dashboard_list
+        }
+        return data
+
+
 logisymphony.add_url_rule(
     u'/dataset/<id>/reporting/<resource_id>',
     view_func=LogiSymphonyView.resource_embed
@@ -64,4 +83,9 @@ logisymphony.add_url_rule(
 logisymphony.add_url_rule(
     u'/reporting',
     view_func=LogiSymphonyView.sysadmin_embed
+)
+logisymphony.add_url_rule(
+    u'/get_logi_dashboards',
+    view_func=LogiSymphonyView.get_logi_dashboards,
+    methods=[u'GET']
 )

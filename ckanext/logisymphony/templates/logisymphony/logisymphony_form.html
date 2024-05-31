@@ -1,3 +1,35 @@
 {% import 'macros/form.html' as form %}
 
-{{ form.input('dashboard_id', id='field-dashboard_id', label=_('Logi Symphony Dashboard ID'), placeholder=_('eg. 1234abcd-1234-abcd-1234-abcd1234abcd'), value=data.dashboard_id, error=errors.dashboard_id, classes=['control-full', 'control-large']) }}
+{% asset 'logisymphony/logisymphony-js' %}
+{% asset 'logisymphony/logisymphony-css' %}
+
+<div class="row">
+    <div class="span8 col-md-8">
+        {% set
+            tag_attrs = {
+                'data-module': 'logi-dashboards',
+                'data-module-source': '/get_logi_dashboards'
+            }
+        %}
+
+        {{ form.input('dashboard_id', id='field-dashboard_id', label=_('Dashboard'), placeholder=_('Select a Dashboard'), value=data.dashboard_id, error=errors.dashboard_id, classes=['control-full'], attrs=tag_attrs) }}
+
+        {{ form.input('title', id='field-title', label=_('Title'), placeholder=_('eg. My View'), value=data.title, error=errors.title, classes=['control-full', 'control-large'], is_required=true) }}
+        {{ form.markdown('description', id='field-description', label=_('Description'), placeholder=_('eg. Information about my view'), value=data.description, error=errors.description) }}
+    </div>
+    <div class="span4 col-md-4">
+        <div class="dashboard-thumbnail">
+            <div class="media-title">Preview</div>
+            <div class="inner-media">
+                <div class="image-container">
+                    {% if data.dashboard_id %}
+                        {% set thumbnail_url = h.get_logi_url() + '/managed/Resource/GetStoredViewThumbnail/?viewId=' + data.dashboard_id %}
+                        <img class="media-image" src="{{ thumbnail_url }}" alt="Thumbnail for the dashboard {{ data.title }}" title="Thumbnail for {{ data.title }}">
+                    {% else %}
+                        <img class="media-image" src="/images/placeholder.png" alt="Placeholder Image" title="Placeholder Image">
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
