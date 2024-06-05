@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask.views import MethodView
 
 import ckan.model as model
-import ckanext.logisymphony.utils as utils
+import ckanext.logisymphony.logi as logi
 from ckan.plugins.toolkit import (
     ObjectNotFound, NotAuthorized, get_action,
     check_access, abort, render, c, g, _
@@ -69,7 +69,7 @@ class LogiSymphonyView(MethodView):
         except NotAuthorized:
             abort(404, _(u'Resource not found'))
 
-        dashboard_list = utils.get_logi_project_dashboards()
+        dashboard_list = logi.get_logi_project_dashboards()
         data = {
             'results': dashboard_list
         }
